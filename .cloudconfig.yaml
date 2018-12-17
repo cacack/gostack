@@ -1,0 +1,19 @@
+clouds:
+  - bob
+  - alice
+  - watchtower
+
+bob:
+  authurl: http://openstack.cas.org:5000/v3
+  domain: Default
+  region: RegionOne
+
+alice:
+  authurl: http://openstackprod.cas.org:5000/v3
+  domain: Default
+  region: RegionOne  
+
+watchtower:
+  authurl: https://watchtower.openstack.cas.org:5000/v3
+  domain: Default
+  region: RegionOne
