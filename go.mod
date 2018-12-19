@@ -1,7 +1,10 @@
 module github.com/jwisard/gostack
 
 require (
-	github.com/gophercloud/gophercloud v0.0.0-20181215224939-bdd8b1ecd793
+	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/gophercloud/gophercloud v0.0.0-20181219025429-239b98b295da
+	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/jwisard/goos v0.0.2
 	github.com/mitchellh/go-homedir v1.0.0
 	github.com/sirupsen/logrus v1.2.0
 	github.com/spf13/cobra v0.0.3
