@@ -17,11 +17,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/images"
-
-	"github.com/gophercloud/gophercloud"
-	"github.com/gophercloud/gophercloud/openstack"
-	"github.com/gophercloud/gophercloud/openstack/compute/v2/flavors"
+	"github.com/jwisard/goos"
 	"github.com/spf13/cobra"
 )
 
@@ -58,7 +54,7 @@ func init() {
 }
 
 func listFlavors(cmd *cobra.Command, args []string) {
-	allFlavors, err := retrieveFlavors(provider)
+	allFlavors, err := goos.RetrieveFlavors(provider)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -70,7 +66,7 @@ func listFlavors(cmd *cobra.Command, args []string) {
 }
 
 func listImages(cmd *cobra.Command, args []string) {
-	allImages, err := retrieveImages(provider)
+	allImages, err := goos.RetrieveImages(provider)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -79,59 +75,4 @@ func listImages(cmd *cobra.Command, args []string) {
 	for _, image := range allImages {
 		fmt.Printf("%+v\n", image)
 	}
-}
-
-func retrieveFlavors(provider *gophercloud.ProviderClient) ([]flavors.Flavor, error) {
-
-	compute, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{
-		Region: "RegionOne",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	listOpts := flavors.ListOpts{
-		Limit:      20,
-		AccessType: flavors.PublicAccess,
-	}
-
-	allPages, err := flavors.ListDetail(compute, listOpts).AllPages()
-	if err != nil {
-		return nil, err
-	}
-
-	allFlavors, err := flavors.ExtractFlavors(allPages)
-	if err != nil {
-		return nil, err
-	}
-
-	return allFlavors, nil
-}
-
-func retrieveImages(provider *gophercloud.ProviderClient) ([]images.Image, error) {
-
-	compute, err := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{
-		Region: "RegionOne",
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	listOpts := images.ListOpts{
-		Limit: 20,
-	}
-
-	allPages, err := images.ListDetail(compute, listOpts).AllPages()
-	if err != nil {
-		return nil, err
-	}
-
-	allImages, err := images.ExtractImages(allPages)
-	if err != nil {
-		return nil, err
-	}
-
-	return allImages, nil
 }
