@@ -32,7 +32,7 @@ var flavorsCmd = &cobra.Command{
 	Short:   "lists the flavors that are available within a tenant",
 	Aliases: []string{"flavor"},
 	Run: func(cmd *cobra.Command, args []string) {
-		listFlavors(cmd, args)
+		listFlavors(client)
 	},
 }
 
@@ -41,7 +41,7 @@ var imagesCmd = &cobra.Command{
 	Short:   "lists the images that are available within a tenant",
 	Aliases: []string{"image"},
 	Run: func(cmd *cobra.Command, args []string) {
-		listImages(cmd, args)
+		listImages(client)
 	},
 }
 
@@ -53,8 +53,8 @@ func init() {
 	imagesCmd.Flags().BoolP("all", "a", false, "if set, all fields of the image will be printed")
 }
 
-func listFlavors(cmd *cobra.Command, args []string) {
-	allFlavors, err := goos.RetrieveFlavors(provider)
+func listFlavors(osClient goos.OSClient) {
+	allFlavors, err := osClient.RetrieveFlavors()
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -65,8 +65,8 @@ func listFlavors(cmd *cobra.Command, args []string) {
 	}
 }
 
-func listImages(cmd *cobra.Command, args []string) {
-	allImages, err := goos.RetrieveImages(provider)
+func listImages(osClient goos.OSClient) {
+	allImages, err := osClient.RetrieveImages()
 
 	if err != nil {
 		fmt.Println(err.Error())

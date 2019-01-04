@@ -7,8 +7,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gophercloud/gophercloud"
-
 	"github.com/jwisard/goos"
 	homedir "github.com/mitchellh/go-homedir"
 	logger "github.com/sirupsen/logrus"
@@ -20,7 +18,7 @@ var cfgFile = ""
 
 var viperCfg *viper.Viper
 
-var provider *gophercloud.ProviderClient
+var client goos.OSClient
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -131,13 +129,13 @@ func initializeProvider(cmd *cobra.Command, args []string) {
 
 	logger.Info("Collected AuthConfig: " + fmt.Sprintf("%+v", cfg))
 
-	authClient, err := goos.CreateProviderClient(cfg)
+	osClient, err := goos.CreateOSClient(cfg)
 
 	if err != nil {
 		logger.Fatal("Failed to establish an authenticated OpenStack client " + err.Error())
 	}
 
-	provider = authClient
+	client = osClient
 }
 
 func validatedAuthConfig(v *viper.Viper) (*goos.AuthConfig, error) {
