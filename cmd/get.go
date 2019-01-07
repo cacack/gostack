@@ -129,5 +129,5 @@ func getImage(osClient goos.OSClient, id string, name string) (*images.Image, er
 		return image, nil
 	}
 
-	return nil, errors.New("one of flavor id or name is required")
+	return nil, errors.New("one of image id or name is required")
 }
